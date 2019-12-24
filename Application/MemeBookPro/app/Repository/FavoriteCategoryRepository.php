@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Meme;
 use Illuminate\Database\Eloquent\Model;
 
-class FavoriteCategoryRepository implements FavoriteCategoryInterface
+class FavoriteCategoryRepository implements UserInterface
 {
     protected $model;
 

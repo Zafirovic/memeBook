@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Meme;
 use Illuminate\Database\Eloquent\Model;
 
-class MemeRepository implements MemeInterface
+class MemeRepository implements UserInterface
 {
     protected $model;
 

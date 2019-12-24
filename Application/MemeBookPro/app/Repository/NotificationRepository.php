@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Meme;
 use Illuminate\Database\Eloquent\Model;
 
-class NotificationRepository implements NotificationInterface
+class NotificationRepository implements UserInterface
 {
     protected $model;
 

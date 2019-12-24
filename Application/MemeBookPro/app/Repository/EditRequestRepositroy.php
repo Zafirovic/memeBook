@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Meme;
 use Illuminate\Database\Eloquent\Model;
 
-class EditRequestRepositroy implements EditRequestInterface
+class EditRequestRepositroy implements UserInterface
 {
     protected $model;
 
