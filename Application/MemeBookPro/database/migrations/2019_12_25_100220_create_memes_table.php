@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMemesTable extends Migration
 {
@@ -15,13 +15,15 @@ class CreateMemesTable extends Migration
     {
         Schema::create('memes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('up_vote');
             $table->integer('down_vote');
             $table->text('image');
-            $table->integer('category_id');
             $table->string('title');
             $table->string('text');
-            $table->integer('user_id');
             $table->timestamps();
         });
     }
