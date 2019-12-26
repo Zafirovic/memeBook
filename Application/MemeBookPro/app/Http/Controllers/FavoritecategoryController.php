@@ -21,4 +21,14 @@ class FavoritecategoryController extends Controller
         return view('favcategory', $categories);
     }
 
+    public function add($userID, $categoryID)
+    {
+        $this->addFavorite($userID, $categoryID);
+    }
+
+    public function removeFavorite($userID, $categoryID)
+    {
+        $this->deleteFavorite($userID, $categoryID);
+    }
+
 }

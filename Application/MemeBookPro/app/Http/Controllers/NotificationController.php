@@ -20,4 +20,14 @@ class NotificationController extends Controller
         return view('notifications', $notifications);
     }
 
+    public function add(Request $notification)
+    {
+        $this->addNotification($notification);
+    }
+
+    public function delete($userID)
+    {
+        $this->deleteNotificationsForUser($userID);
+    }
+
 }

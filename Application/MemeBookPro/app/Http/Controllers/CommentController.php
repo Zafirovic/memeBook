@@ -21,7 +21,7 @@ class CommentController extends Controller
         return view('category', $comments);
     }
 
-    public function addComment($comment)
+    public function addComment(Request $comment)
     {
         $this->add($comment);
     }

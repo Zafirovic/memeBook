@@ -33,7 +33,7 @@ class EditrequestController extends Controller
         return view('meme', $username);
     }
 
-    public function add($editRequest)
+    public function add(Request $editRequest)
     {
         $this->addRequest($editRequest);
     }

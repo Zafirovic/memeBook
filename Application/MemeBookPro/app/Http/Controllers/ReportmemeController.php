@@ -13,16 +13,15 @@ class ReportmemeController extends Controller
     {
         $this->reportmemeRepository = $reportmemeRepository;
     }
-
+    
     public function numberOfReports($memeID)
     {
         $reports = $this->getNumberOfReports($memeID);
         return view('reportmeme', $reports);
     }
 
-    public function getAllMemes()
+    public function add(Request $report)
     {
-        $memes = $this->all();
-        return view('memes', $memes);
+        $this->addReport($report);
     }
 }

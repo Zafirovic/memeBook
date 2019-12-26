@@ -4,6 +4,6 @@ namespace App\Repositories\Interfaces;
 
 interface UserRepositoryInterface
 {
-    public function all();
-    public function delete($userID);
+    public function allUsers();
+    public function deleteUser($userID);
 }

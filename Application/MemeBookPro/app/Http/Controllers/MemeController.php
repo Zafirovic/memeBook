@@ -38,4 +38,19 @@ class MemeController extends Controller
         $down = $this->getDownvotes($id);
         return view('meme', $down);
     }
+
+    public function add(Request $meme)
+    {
+        $this->addMeme($meme);
+    }
+
+    public function delete($memeID)
+    {
+        $this->deleteMeme($memeID);
+    }
+
+    public function update(Request $meme, $memeID)
+    {
+        $this->updateMeme($memeID, $meme);
+    }
 }

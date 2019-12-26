@@ -7,12 +7,13 @@ use App\Repositores\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function all()
+    public function allUsers()
     {
         $users = User::all();
+        return $users;
     }
 
-    public function delete($userID)
+    public function deleteUser($userID)
     {
        $user = User::find($userID);
        $user->delete();
