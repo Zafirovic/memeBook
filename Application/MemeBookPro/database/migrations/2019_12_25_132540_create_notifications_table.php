@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemesTable extends Migration
+class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateMemesTable extends Migration
      */
     public function up()
     {
-        Schema::create('memes', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('up_vote');
-            $table->integer('down_vote');
-            $table->text('image');
-            $table->string('title');
-            $table->string('text');
+            $table->unsignedBigInteger('notificationable_id');
+            $table->unsignedBigInteger('notificationable_type');
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ class CreateMemesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memes');
+        Schema::dropIfExists('notifications');
     }
 }

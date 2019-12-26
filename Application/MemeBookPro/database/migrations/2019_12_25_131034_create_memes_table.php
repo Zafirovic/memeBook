@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEditrequestsTable extends Migration
+class CreateMemesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,17 @@ class CreateEditrequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('editrequests', function (Blueprint $table) {
+        Schema::create('memes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('upvotes');
+            $table->integer('downvotes');
+            $table->text('image');
+            $table->string('title');
+            $table->string('text');
             $table->timestamps();
         });
     }
@@ -28,6 +35,6 @@ class CreateEditrequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('editrequests');
+        Schema::dropIfExists('memes');
     }
 }
