@@ -23,12 +23,12 @@ class FavoritecategoryController extends Controller
 
     public function add($userID, $categoryID)
     {
-        $this->addFavorite($userID, $categoryID);
+        $this->favcategoryRepository->addFavorite($userID, $categoryID);
     }
 
     public function removeFavorite($userID, $categoryID)
     {
-        $this->deleteFavorite($userID, $categoryID);
+        $this->favcategoryRepository->deleteFavorite($userID, $categoryID);
     }
 
 }

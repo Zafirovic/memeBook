@@ -16,12 +16,13 @@ class UserController extends Controller
 
     public function all()
     {
-        $users = $this->allUsers();
+        $users = $this->userRepository->allUsers();
         return view('users', $users);
     }
 
     public function delete($userID)
     {
-        $this->deleteUser($userID);
+        $this->userRepository->deleteUser($userID);
     }
+    
 }

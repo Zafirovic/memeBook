@@ -23,7 +23,7 @@ class CategoryController extends Controller
 
     public function detail($id)
     {
-        $category = $this->getByID($id);
+        $category = $this->categoryRepository->getByID($id);
 
         return view('category', $category);
     }

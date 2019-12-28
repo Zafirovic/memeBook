@@ -17,29 +17,29 @@ class EditrequestController extends Controller
 
     public function allUserRequests($userID)
     {
-        $editrequests = $this->getEditrequestsForUser($userID);
+        $editrequests = $this->editrequestRepository->getEditrequestsForUser($userID);
         return view('editrequests', $editrequests);
     }
 
     public function allMemeRequests($memeID)
     {
-        $editrequests = $this->getEditrequestsForMeme($memeID);
+        $editrequests = $this->editrequestRepository->getEditrequestsForMeme($memeID);
         return view('editrequests', $editrequests);
     }
 
     public function UserID($editID)
     {
-        $username = $this->getUserID($editID);
+        $username = $this->editrequestRepository->getUserID($editID);
         return view('meme', $username);
     }
 
     public function add(Request $editRequest)
     {
-        $this->addRequest($editRequest);
+        $this->editrequestRepository->addRequest($editRequest);
     }
 
     public function delete($id)
     {
-        $this->deleteRequest($id);
+        $this->editrequestRepository->deleteRequest($id);
     }
 }

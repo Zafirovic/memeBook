@@ -17,17 +17,17 @@ class CommentController extends Controller
 
     public function commentsForMeme($id)
     {
-        $comments = $this->getByMeme($id);
-        return view('category', $comments);
+        $comments = $this->commentRepository->getByMeme($id);
+        return view('comment', $comments);
     }
 
     public function addComment(Request $comment)
     {
-        $this->add($comment);
+        $this->commentRepository->add($comment);
     }
 
     public function deleteComment($id)
     {
-        $this->delete($id);
+        $this->commentRepository->delete($id);
     }
 }

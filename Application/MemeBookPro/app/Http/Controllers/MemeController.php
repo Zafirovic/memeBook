@@ -17,40 +17,40 @@ class MemeController extends Controller
 
     public function index()
     {
-        $memes = $this->getMemes();
+        $memes = $this->memeRepository->getMemes();
         return view('meme', $memes);
     }
 
     public function meme($id)
     {
-        $meme = $this->getMeme($id);
+        $meme = $this->memeRepository->getMeme($id);
         return view('meme', $meme);
     }
 
     public function upvotes($id)
     {
-        $up = $this->getUpvotes($id);
+        $up = $this->memeRepository->getUpvotes($id);
         return view('meme', $up);
     }
 
     public function downvotes($id)
     {
-        $down = $this->getDownvotes($id);
+        $down = $this->memeRepository->getDownvotes($id);
         return view('meme', $down);
     }
 
     public function add(Request $meme)
     {
-        $this->addMeme($meme);
+        $this->memeRepository->addMeme($meme);
     }
 
     public function delete($memeID)
     {
-        $this->deleteMeme($memeID);
+        $this->memeRepository->deleteMeme($memeID);
     }
 
     public function update(Request $meme, $memeID)
     {
-        $this->updateMeme($memeID, $meme);
+        $this->memeRepository->updateMeme($memeID, $meme);
     }
 }

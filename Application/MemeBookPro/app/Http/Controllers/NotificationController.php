@@ -16,18 +16,18 @@ class NotificationController extends Controller
 
     public function allNotifications($userID)
     {
-        $notifications = $this->getNotificationsForUser($userID);
+        $notifications = $this->notificationRepository->getNotificationsForUser($userID);
         return view('notifications', $notifications);
     }
 
     public function add(Request $notification)
     {
-        $this->addNotification($notification);
+        $this->notificationRepository->addNotification($notification);
     }
 
     public function delete($userID)
     {
-        $this->deleteNotificationsForUser($userID);
+        $this->notificationRepository->deleteNotificationsForUser($userID);
     }
 
 }
