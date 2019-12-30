@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware(['auth'])->group(function (){
+   Route::get('/','MemeController@index')->name('home');
+   Route::get('/memes/create','MemeController@create')->name('create.meme');
+   Route::post('/memes/store','MemeController@store')->name('store.meme');
+   Route::get('/category/follow/{category_id}','MemeController@follow')->name('category.follow');
+   Route::get('/category/unfollow/{category_id}','MemeController@unfollow')->name('category.unfollow');
 });
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+

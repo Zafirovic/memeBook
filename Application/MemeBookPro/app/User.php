@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'email', 'password',
     ];
 
     /**
@@ -36,4 +37,51 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /*functions*/
+    public function memes()
+    {
+        return $this->hasMany('App\Meme');
+    }
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+    public function reportMemes()
+    {
+        return $this->hasMany('App\Reportmeme');
+    }
+    public function notifications()
+    {
+        return $this->hasMany('App\Notification');
+    }
+    public function favoriteCategories()
+    {
+        return $this->hasMany('App\Favoritecategory');
+    }
+    public function editRequests()
+    {
+        return $this->hasMany('App\User');
+    }
+
+    public static function is_followed_category($category_id)
+    {
+        $followed=Favoritecategory::where([['category_id',$category_id],['user_id',auth()->user()->id]])->first();
+        if($followed != null)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    public static function is_unfollowed_category($category_id)
+    {
+        $unfollowed=Favoritecategory::where([['category_id',$category_id],['user_id',auth()->user()->id]])->first();
+        if($unfollowed!=null)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
 }
