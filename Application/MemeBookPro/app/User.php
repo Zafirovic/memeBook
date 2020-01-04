@@ -66,22 +66,14 @@ class User extends Authenticatable
 
     public static function is_followed_category($category_id)
     {
-        $followed=Favoritecategory::where([['category_id',$category_id],['user_id',auth()->user()->id]])->first();
+        $followed = Favoritecategory::where([['category_id',$category_id],
+                                             ['user_id',auth()->user()->id]])
+                                             ->first();
         if($followed != null)
         {
             return true;
         }
         else
             return false;
-    }
-    public static function is_unfollowed_category($category_id)
-    {
-        $unfollowed=Favoritecategory::where([['category_id',$category_id],['user_id',auth()->user()->id]])->first();
-        if($unfollowed!=null)
-        {
-            return false;
-        }
-        else
-            return true;
     }
 }

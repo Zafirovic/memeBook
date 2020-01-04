@@ -19,8 +19,8 @@ class CreateMemesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->integer('up_vote');
-            $table->integer('down_vote');
+            $table->integer('up_vote')->default(0);
+            $table->integer('down_vote')->default(0);
             $table->text('image');
             $table->string('title');
             $table->string('text');

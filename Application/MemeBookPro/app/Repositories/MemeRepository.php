@@ -1,21 +1,22 @@
 <?php
 namespace App\Repositories;
+
 use App\Category;
 use App\Http\Requests\MemeStoreRequest;
-use App\Repositories\Interfaces\MemeeRepositoryInterface;
+use App\Repositories\Interfaces\MemeRepositoryInterface;
 use App\Meme;
 use App\User;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 
-class MemeRepository implements MemeeRepositoryInterface
+class MemeRepository implements MemeRepositoryInterface
 {
-
     public function all()
     {
         return Meme::all();
     }
-
 
     public function store(MemeStoreRequest $request)
     {
@@ -34,6 +35,5 @@ class MemeRepository implements MemeeRepositoryInterface
         $data['image']=$img_name;
         Meme::create($data);
         Session::flash('success','Meme added successfully');
-        return redirect('/');
     }
 }
