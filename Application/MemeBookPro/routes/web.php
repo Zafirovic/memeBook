@@ -20,7 +20,8 @@ Route::middleware(['auth'])->group(function (){
    Route::get('/category/unfollow/{category_id}','MemeController@unfollow')->name('category.unfollow');
 });
 
-Route::view('/', 'welcome');
+Route::get('/', 'MemeController@index1')->name('home1');
+//Route::view('/', 'welcome');
 
 Auth::routes();
 

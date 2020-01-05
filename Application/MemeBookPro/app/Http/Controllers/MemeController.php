@@ -26,6 +26,18 @@ class MemeController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
+    public function index1()
+    {
+        $categories = $this->categoryRepository->all();
+        $memes = $this->memeRepository->all();
+        if(isset (request()->category_id)){
+            $category = new Category();
+            $category = $category->find(request()->category_id);
+            $memes = $category->memes;
+        }
+        return view('welcome', compact('memes','categories'));
+    }
+
     public function index()
     {
         $categories = $this->categoryRepository->all();

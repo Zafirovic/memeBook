@@ -6,8 +6,6 @@ use App\Http\Requests\MemeStoreRequest;
 use App\Repositories\Interfaces\MemeRepositoryInterface;
 use App\Meme;
 use App\User;
-use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Session;
 
