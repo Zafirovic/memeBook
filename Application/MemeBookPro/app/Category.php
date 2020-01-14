@@ -11,5 +11,8 @@ class Category extends Model
     {
         return $this->hasMany('App\Meme');
     }
-
+    public function follows_category()
+    {
+        return $this->belongsToMany(User::class,'favoritecategories','category_id','user_id');
+    }
 }

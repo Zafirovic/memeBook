@@ -24,7 +24,8 @@ class MemeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //validacioni rulls
+//            'image'=>'required',
+//            'category_id'=>'required',
         ];
     }
 }

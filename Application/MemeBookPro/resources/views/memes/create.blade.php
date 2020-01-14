@@ -1,6 +1,7 @@
+
 @extends('layouts.app')
 @section('content')
-    <form method="post" action="{{route('store.meme')}}" enctype="multipart/form-data" style="padding-left:10px"> 
+    <form method="post" id="meme-store" action="{{route('store.meme')}}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="imageInput">Image</label>
@@ -28,7 +29,9 @@
         </div>
         <div>
             <hr>
+            <hr>
+            <hr>
         </div>
-        <button type="submit" class="btn btn-primary" style="height: 50px; width: 200px">Upload Meme</button>
+        <button type="submit" id="btn-meme" class="btn btn-primary">Make Meme</button>
     </form>
     @stop

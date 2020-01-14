@@ -1,10 +1,10 @@
 jQuery(document).ready(function() {
- 
+
     $('.dismiss, .overlay').on('click', function() {
         $('.sidebar').removeClass('active');
         $('.overlay').removeClass('active');
     });
- 
+
     $('.open-menu').on('click', function(e) {
         e.preventDefault();
         $('.sidebar').addClass('active');
@@ -13,9 +13,9 @@ jQuery(document).ready(function() {
         $('.collapse.show').toggleClass('show');
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
- 
+
     /* other code */
- 
+
 });
 
 
@@ -26,7 +26,7 @@ $('a.scroll-link').on('click', function(e) {
     e.preventDefault();
     scroll_to($(this), 0);
 });
- 
+
 function scroll_to(clicked_link, nav_height) {
     var element_class = clicked_link.attr('href').replace('#', '.');
     var scroll_to = 0;
@@ -50,31 +50,31 @@ $('a.btn-customized-dark').on('click', function(e) {
     e.preventDefault();
     $('.sidebar').removeClass('light');
 });
- 
+
 $('a.btn-customized-light').on('click', function(e) {
     e.preventDefault();
     $('.sidebar').addClass('light');
 });
 
 $('.section-container').waypoint(function(direction) {
-    if (direction === 'down') {
-        $('.menu-elements li').removeClass('active');
-        $('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
-    }
-},
-{
-    offset: '0'
-});
- 
+        if (direction === 'down') {
+            $('.menu-elements li').removeClass('active');
+            $('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
+        }
+    },
+    {
+        offset: '0'
+    });
+
 $('.section-container').waypoint(function(direction) {
-    if (direction === 'up') {
-        $('.menu-elements li').removeClass('active');
-        $('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
-    }
-},
-{
-    offset: '-5'
-});
+        if (direction === 'up') {
+            $('.menu-elements li').removeClass('active');
+            $('.menu-elements a[href="#' + this.element.id + '"]').parents('li').addClass('active');
+        }
+    },
+    {
+        offset: '-5'
+    });
 
 $('.sidebar').mCustomScrollbar({
     theme: "minimal-dark"

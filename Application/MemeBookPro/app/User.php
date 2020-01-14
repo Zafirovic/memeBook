@@ -4,12 +4,10 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -66,9 +64,7 @@ class User extends Authenticatable
 
     public static function is_followed_category($category_id)
     {
-        $followed = Favoritecategory::where([['category_id',$category_id],
-                                             ['user_id',auth()->user()->id]])
-                                             ->first();
+        $followed=Favoritecategory::where([['category_id',$category_id],['user_id',auth()->user()->id]])->first();
         if($followed != null)
         {
             return true;
@@ -76,4 +72,10 @@ class User extends Authenticatable
         else
             return false;
     }
+
+    public function follows_category()
+    {
+        return $this->belongsToMany(Category::class,'favoritecategories','user_id','category_id');
+    }
+
 }

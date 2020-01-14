@@ -22,8 +22,8 @@ class CreateMemesTable extends Migration
             $table->integer('up_vote')->default(0);
             $table->integer('down_vote')->default(0);
             $table->text('image');
-            $table->string('title');
-            $table->string('text');
+            $table->string('title')->nullable();
+            $table->string('text')->nullable();
             $table->timestamps();
         });
     }

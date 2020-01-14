@@ -9,16 +9,15 @@ use App\Meme;
 
 class CommentController extends Controller
 {
-    private $commentRepository;
-
+    protected $commentRepository;
     public function __construct(CommentRepositoryInterface $commentRepository)
     {
-        $this->commentRepository = $commentRepository;
+        $this->commentRepository=$commentRepository;
     }
     public function detail($meme_id)
     {
-        $meme = Meme::find($meme_id);
-        $comments = $this->commentRepository->getByMeme($meme);
+        $meme=Meme::find($meme_id);
+        $comments=$this->commentRepository->getByMeme($meme);
     }
 
     //
