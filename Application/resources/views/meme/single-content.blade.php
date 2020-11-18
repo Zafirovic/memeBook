@@ -2,7 +2,7 @@
     <hr>
     <div class="row meme-container">
         <meme-component :meme="{{ $meme }}" 
-                        memeimage="{{ URL::to('/') }}/images/memes/{{ $meme->image }}"
+                        memeimage="{{ $meme->sourceImage }}"
                         :user='@json(auth()->user())'
                         single_meme_route="{{ route('meme.single', $meme->id) }}"
                         user_route="{{ route('user.show', $meme->user_id) }}">

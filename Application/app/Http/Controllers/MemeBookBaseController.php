@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repository\IRepositories\MemeIRepository;
 use App\Repository\IRepositories\UserIRepository;
@@ -38,23 +39,32 @@ class MemeBookBaseController extends Controller
 
     protected function fillMemeData($memes)
     {
+        $auth_user = Auth::user();
         if ($memes instanceof LengthAwarePaginator)
         {
             foreach ($memes as $meme)
             {
+                $meme->sourceImage = $this->checkImageSource($meme);
                 $meme->votes = $this->voteRepository->getMemeVotesSum($meme->id);
                 $meme->username = $this->userRepository->getUser($meme->user_id)->name;
-                $meme->voted = Auth::user() ? $this->voteRepository->votedMemeByUser($meme->id, Auth::user()->id)
+                $meme->voted = $auth_user ? $this->voteRepository->votedMemeByUser($meme->id, $auth_user->id)
                                             : array('upvoted' => 'white', 'downvoted' => 'white');
             }
         }
         else
         {
+            $memes->sourceImage = $this->checkImageSource($memes);
             $memes->votes = $this->voteRepository->getMemeVotesSum($memes->id);
             $memes->username = $this->userRepository->getUser($memes->user_id)->name;
-            $memes->voted = Auth::user() ? $this->voteRepository->votedMemeByUser($memes->id, Auth::user()->id)
+            $memes->voted = $auth_user ? $this->voteRepository->votedMemeByUser($memes->id, $auth_user->id)
                                          : array('upvoted' => 'white', 'downvoted' => 'white');
         }
         return $memes;
+    }
+
+    private function checkImageSource($meme)
+    {
+        return strpos($meme->image, "imgflip") !== false ? $meme->image
+                                                         : URL::to('/') . '/images/memes/' .  $meme->image;
     }
 }

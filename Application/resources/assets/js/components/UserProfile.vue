@@ -49,7 +49,7 @@
               <div v-for="meme in this.memes.data">
                 <meme-component :meme="meme" 
                                 :user="auth_user"
-                                :memeimage="images_source + meme.image"
+                                :memeimage="meme.sourceImage"
                                 :single_meme_route="'/meme/single/' + meme.id"
                                 :user_route="'/users/' + meme.user_id">
                 </meme-component>

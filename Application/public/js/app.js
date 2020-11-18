@@ -67434,7 +67434,7 @@ var render = function() {
                           attrs: {
                             meme: meme,
                             user: _vm.auth_user,
-                            memeimage: _vm.images_source + meme.image,
+                            memeimage: meme.sourceImage,
                             single_meme_route: "/meme/single/" + meme.id,
                             user_route: "/users/" + meme.user_id
                           }

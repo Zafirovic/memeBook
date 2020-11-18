@@ -18,5 +18,7 @@ interface MemeIRepository
 
     function addMeme(MemeRequest $request, $img_name);
 
+    function addApiMeme($data);
+
     function updateMeme(MemeRequest $request, $meme_id);
 }

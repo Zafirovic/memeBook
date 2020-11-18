@@ -8,6 +8,7 @@ use App\ImageHelper;
 use Illuminate\Http\Request;
 use App\Http\Requests\MemeRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class MemeController extends MemeBookBaseController
 {
@@ -48,18 +49,23 @@ class MemeController extends MemeBookBaseController
 
     public function create()
     {
+        $apiData = json_decode(file_get_contents('https://api.imgflip.com/get_memes'), true);
+        $apiMemeImages = $apiData['data']['memes'];
         $categories = $this->categoryRepository->getCategories();
-        return view('meme.create', compact('categories'));
+        return view('meme.create', compact('apiMemeImages', 'categories'));
     }
 
     public function store(MemeRequest $request)
     {
+        if ($request->ajax()) {
+            $message = $this->memeRepository->addApiMeme($request);
+            return response()->json(['url' => route('memes.index')]);
+        }
         $validated = $request->validated();
         if ($request->hasFile('image')) {
             $img_name = ImageHelper::CreateImage($request->file('image'), 'images/memes');
             $message = $this->memeRepository->addMeme($request, $img_name);
         }
-
         return redirect(route('memes.index'))->with($message);
     }
 

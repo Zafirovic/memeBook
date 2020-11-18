@@ -77,6 +77,23 @@ class Meme extends Model
         }
     }
 
+    public function addApiMeme($data)
+    {
+        $created = Meme::create([
+            'title' => $data->title,
+            'body' => $data->body,
+            'image' => $data->image,
+            'user_id' => Auth::user()->id,
+            'category_id' => $data->category_id
+        ]);
+        if ($created) {
+            return MessageHelper::ToastMessage('Success');
+        } 
+        else {
+            return MessageHelper::ToastMessage('Error');
+        }
+    }
+
     public function updateMeme(MemeRequest $request, $meme_id)
     {
         $meme = Meme::find($meme_id);

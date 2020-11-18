@@ -17,6 +17,8 @@
         <!-- Meme style -->
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/applayout.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/memes.css') }}">
+        <!--BxSlider -->
+        <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/jquery.bxslider.css') }}">
         
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
@@ -75,5 +77,6 @@
     <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script type="text/javascript" src="{{ URL::asset('js/sidebar.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/jquery.bxslider.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/MemeOptionOnCreate.js') }}"></script>
 </html>
-
