@@ -8,7 +8,7 @@
               Username: <i>{{ this.user.name }}</i>
               <avatar class="avatar-photo"
                       :username="this.user.name"
-                      :src="'../images/user-profile-images/' + this.user.avatar"
+                      :src="this.user.avatar"
                       :size=75
                       :inline="true">
               </avatar>
@@ -51,7 +51,8 @@
                                 :user="auth_user"
                                 :memeimage="meme.sourceImage"
                                 :single_meme_route="'/meme/single/' + meme.id"
-                                :user_route="'/users/' + meme.user_id">
+                                :user_route="'/users/' + meme.user_id"
+                                delete_meme_route="'/meme/delete'">
                 </meme-component>
               </div>
             </div>
@@ -112,6 +113,7 @@ export default {
           },
           error: function (xhr, error) {
               if (xhr.status == 401) window.location.href = "/login";
+              else if (xhr.status == 404) window.history.back();
               else if (xhr.status == 500) console.log(xhr);
               else console.log(error);
           },

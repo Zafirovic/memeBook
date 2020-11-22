@@ -4,7 +4,7 @@
       <div class="profile-options">
         <h5 style="color: #666">
           Likes:
-          <span :id="'votes-' + this.meme.id"> {{ this.meme.votes }} </span>
+          <span :id="'votes-' + this.meme.id"> {{ this.meme.numOfVotes }} </span>
         </h5>
         <div class="row" style="color: whitesmoke">
           <h2>
@@ -42,12 +42,20 @@
             id="delete_meme_button"
             class="btn"
             href=""
-            >Edit Meme</a>
-          <a
-            v-if="this.user !== null && this.user.id == this.meme.user_id"
-            class="btn btn-danger"
-            :href="'/meme/delete/' + this.meme.id">
-            Delete Meme
+            >Edit Meme
+          </a>
+          <a style="display:inline-block;">
+            <form :action="this.delete_meme_route" method="post" name="delete-meme-form">
+              <input type="hidden" name="_token" v-bind:value="csrfToken">
+              <input type="hidden" id="meme_id" name="meme_id" :value="this.meme.id">
+              <button
+                v-if="this.user !== null && this.user.id == this.meme.user_id"
+                class="btn btn-danger"
+                type="submit"
+              >
+                Delete Meme
+              </button>
+            </form>
           </a>
         </div>
       </div>
@@ -61,7 +69,13 @@ export default {
     meme: Object,
     username: String,
     user: Object,
-    user_route: String
+    user_route: String,
+    delete_meme_route: String
+  },
+  data() {
+    return {
+      csrfToken: $('meta[name="csrf-token"]').attr("content"),
+    }
   },
   methods: {
     upvote() {
@@ -123,10 +137,20 @@ export default {
           $("#votes-" + data.meme_id).html(data.sum);
         },
         error: function (xhr) {
-          if ((xhr.status = 401)) window.location.href = "/login";
+          if ((xhr.status == 401)) window.location.href = "/login";
         },
       });
     },
-  },
+    // deleteMeme() {
+    //   $.ajax({
+    //     headers: {
+    //       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    //     },
+    //     url: this.delete_meme_route,
+    //     data: { meme_id: this.meme.id },
+    //     type: "POST"
+    //   })
+    // }
+  }
 };
 </script>

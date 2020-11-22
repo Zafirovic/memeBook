@@ -24,6 +24,7 @@
         :user="this.user"
         :username="this.meme.username"
         :user_route="this.user_route"
+        :delete_meme_route="this.delete_meme_route"
       ></meme-options>
     </article>
     <br />
@@ -40,7 +41,8 @@ export default {
     memeimage: String,
     user: Object,
     single_meme_route: String,
-    user_route: String
+    user_route: String,
+    delete_meme_route: String
   },
 };
 </script>

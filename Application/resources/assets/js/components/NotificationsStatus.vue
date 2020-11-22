@@ -108,6 +108,9 @@
                 .done((url) => {
                     window.location = url;
                 })
+                .error((data) => {
+                    console.log(data);
+                })
             },
             isUndefined(type) {
                 return typeof type === 'undefined';

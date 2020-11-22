@@ -6,7 +6,8 @@
                             memeimage="{{ $meme->sourceImage }}"
                             :user='@json(auth()->user())'
                             single_meme_route="{{ route('meme.single', $meme->id) }}"
-                            user_route="{{ route('user.show', $meme->user_id) }}">
+                            user_route="{{ route('user.show', $meme->user_id) }}"
+                            delete_meme_route="{{ route('meme.delete') }}">
             </meme-component>
             <div class="row right-side">
                 <div class="row scrollbar-ripe-malinka">
@@ -16,11 +17,22 @@
                 </div>
                 @if(!auth()->guest())
                     <div class="row report-meme">
-                        <a id="report_meme_button" class="btn" href="">Report Meme</a>
+                        <button type="button"
+                                id="report_meme_button" 
+                                class="btn"
+                                onclick="ReportMeme({{ $meme->id }});">
+                            Report Meme
+                        </button>
                     </div>
                 @else
                     <div class="row report-meme">
-                        <a id="report_meme_button" class="btn" disabled>Report Meme</a>
+                        <button type="button" 
+                                id="report_meme_button" 
+                                class="btn" 
+                                onclick="ReportMeme({{ $meme->id }});"
+                                disabled>
+                            Report Meme
+                        </button>
                     </div>
                 @endif
             </div>
@@ -29,6 +41,6 @@
         @include('partials.memes-not-found')
     @endforelse
     <div class="centered-element">
-            @include('pagination.default_pagination', ['paginator' => $memes])
+        @include('pagination.default_pagination', ['paginator' => $memes])
     </div>
 </div>

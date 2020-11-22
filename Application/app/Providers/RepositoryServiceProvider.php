@@ -49,12 +49,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->bind(MemeIRepository::class, MemeRepository::class);
-        // $this->app->bind(CategoryIRepository::class, CategoryRepository::class);
-        // $this->app->bind(EditRequestIRepository::class, EditRequestRepository::class);
-        // $this->app->bind(MemeReportIRepository::class, MemeReportRepository::class);
-        // $this->app->bind(UserNotificationIRepository::class, UserNotificationRepository::class);
-        // $this->app->bind(UserIRepository::class, UserRepository::class);
-        // $this->app->bind(VoteIRepository::class, VoteRepository::class);
+        
     }
 }

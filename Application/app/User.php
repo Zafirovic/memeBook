@@ -4,6 +4,7 @@ namespace App;
 
 use App\Meme;
 use App\MessageHelper;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -36,7 +37,11 @@ class User extends Authenticatable
 
     public function getUser($user_id)
     {
-        $user = User::where('id', $user_id)->first();
+        $user = User::findOrFail($user_id);
+        $user->avatar = URL::to('/') . '/images/user-profile-images/' . $user->avatar;
+        $user->following = $user->follows()->count();
+        $user->followers = $user->followers()->count();
+        
         return $user;
     }
 
@@ -56,7 +61,8 @@ class User extends Authenticatable
     {
         $this->follows()->attach($userId);
         $followedUser = User::where('id', $userId)->first();
-        $followMessage = MessageHelper::ToastMessage('Success', 'Your are now following ' . $followedUser->name);
+        $followMessage = MessageHelper::ToastMessage('success', true, 'Your are now following ' . $followedUser->name);
+       
         return compact('followMessage');
     }
 
@@ -64,7 +70,8 @@ class User extends Authenticatable
     {
         $this->follows()->detach($userId);
         $user = User::where('id', $userId)->first();
-        return MessageHelper::ToastMessage('Warning', 'You are no longer following ' . $user->name);
+
+        return MessageHelper::ToastMessage('warning', true, 'You are no longer following ' . $user->name);
     }
 
     public function isFollowing($userId)
@@ -75,13 +82,15 @@ class User extends Authenticatable
 
     public function getNotifications()
     {
-        return auth()->user() ? auth()->user()->unreadNotifications()->get()->toArray() : null;
+        return auth()->user() ? auth()->user()->unreadNotifications()->get()->toArray()
+                              : null;
     }
 
     public function getNotification($userId)
     {
         $user = User::where('id', $userId)->first();
         $createdNotification = $user->unreadNotifications()->where('notifiable_id', $userId)->first();
+       
         return $createdNotification;
     }
 

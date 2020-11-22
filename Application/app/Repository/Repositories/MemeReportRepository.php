@@ -2,8 +2,8 @@
 namespace App\Repository\Repositories;
 
 use App\MemeReport;
-use App\Http\Requests\MemeReportRequest;
 use App\Repository\IRepositories\MemeReportIRepository;
+use Illuminate\Http\Request;
 
 class MemeReportRepository implements MemeReportIRepository
 {
@@ -14,6 +14,11 @@ class MemeReportRepository implements MemeReportIRepository
         $this->model = $model;
     }
 
+    public function addMemeReport(Request $request, $user_id)
+    {
+        return $this->model->addMemeReport($request, $user_id);
+    }
+
     public function getMemeReportsForUser($user_id)
     {
         return $this->model->getAllMemeReportsForUser($user_id);
@@ -22,11 +27,6 @@ class MemeReportRepository implements MemeReportIRepository
     public function getMemeReports($meme_id)
     {
         return $this->model->getAllMemeReports($meme_id);
-    }
-
-    public function addMemeReport(MemeReportRequest $request)
-    {
-        return $this->model->addMemeReport($request);
     }
 
     public function deleteMemeReportsForUser($user_id)

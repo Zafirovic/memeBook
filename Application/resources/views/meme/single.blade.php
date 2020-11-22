@@ -7,5 +7,6 @@
 @endsection
 
 @section('content')
-    @include('meme.single-content', ['meme' => $meme])
+    @include('meme.single-content', ['meme' => $meme, 'reasonsToReport' => $reasonsToReport])
+    @include('meme.report-content', ['reasonsToReport' => $reasonsToReport])
 @endsection

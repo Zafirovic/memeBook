@@ -7,12 +7,17 @@ jQuery(function($) {
         slideWidth: 500,
         onSliderLoad: function() {
             $("#memeOption2").css("visibility", "visible");
+            $("#image-spinner").remove();
         },
     });
 });
 
 jQuery(function($) {
     $("input[name='chooseMemeType']").on('change', function() {
+        if ($("#image-spinner").length)
+        {
+            $("#image-spinner").remove();
+        }
         var selectedValue = $(this).val();
 
         $("div.desc").hide();
@@ -31,6 +36,7 @@ jQuery(function($) {
             let title = $(form).find("input[name='title']").val();
             let body = $(form).find("input[name='body']").val();
             let category = $(form).find("select[name='category_id'] option:selected").val();
+            let submitButton = $(form).find(":submit");
             let requestData = {
                 image: image,
                 title: title,
@@ -38,7 +44,10 @@ jQuery(function($) {
                 category_id: category
             };
             let actionUrl = $('form[name="create-meme-form"').attr('action');
-            
+            //show spinner in button
+            ShowSpinnerButton(submitButton);
+            screenLoader_Global();
+
             $.ajax({
                 type: "POST",
                 url: actionUrl,
@@ -55,11 +64,39 @@ jQuery(function($) {
                     console.log(thrownError);
                     console.log(xhr.responseText);
                 }
-            })
+            });
+
+            remove_screenLoader_Global();
         }
         else if (selectedType == 1)
         {
+            let submitButton = $(":submit");
+            //show spinner in button
+            ShowSpinnerButton(submitButton);
+            screenLoader_Global();
             e.currentTarget.submit();
+            remove_screenLoader_Global()
         }
     });
 });
+
+function ShowSpinnerButton(button) {
+    var loadingText = '<i class="spinner-border spinner-border-sm fa-spin"></i> Processing...';
+    if (button.html() !== loadingText) {
+        button.data('original-text', button.html());
+        button.html(loadingText);
+      }
+      setTimeout(function() {
+        button.html(button.data('original-text'));
+      }, 10000);
+}
+
+function screenLoader_Global() {
+    $('<div class="loader-mask"><div class="loader"></div></div>').appendTo('body');
+}
+
+function remove_screenLoader_Global() {
+    setTimeout(function() {
+        $('.loader-mask').remove();
+    }, 10000);
+  }

@@ -11,7 +11,7 @@
             <div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="selectMeme" name="chooseMemeType" value="2" class="custom-control-input" checked>
-                    <label class="custom-control-label" for="selectMeme">Choose meme</label>
+                    <label class="custom-control-label" for="selectMeme">Select meme</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                     <input type="radio" id="uploadMeme" name="chooseMemeType" value="1" class="custom-control-input">
@@ -24,25 +24,50 @@
                     <label for="imageInput"><b>Image</b></label>
                     <input type="file" name="image" class="form-control" id="imageInput">
                     {{--<small class="form-text text-muted">Proslediti sliku(meme) koji zelite ubaciti</small>--}}
+                    @if ($errors->has('image'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('image') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <br/>
+                <div id="image-spinner"> 
+                    <i class="spinner-border spinner-border fa-spin"></i> Loading images...
+                </div>
                 <div id="memeOption2" class="form-group desc" style="visibility: hidden;">
                     <div class="bxslider">
                         @foreach ($apiMemeImages as $meme)
-                            <div class="carouselImage"><img class="selectedImage" width="500" height="350" src="{{ $meme['url'] }}" title="{{ $meme['name'] }}"></div>
+                            <div style="display: none" class="carouselImage"><img class="selectedImage" width="500" height="350" src="{{ $meme['url'] }}" title="{{ $meme['name'] }}"></div>
                         @endforeach
                     </div>        
                 </div>
                 <div class="form-group">
                     <label for="titleInput"><b>Title</b></label>
-                    <input type="text" name="title" class="form-control" id="titleInput" placeholder="Title">
+                    <input type="text"
+                           name="title"
+                           class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" 
+                           id="titleInput"
+                           placeholder="Title"
+                           required
+                           autofocus
+                           value="{{ old('title') }}">
                     @if ($errors->has('title'))
-                        <div class="alert alert-danger">{{ $errors->first('title') }}</div>
+                        <div class="alert">
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('title') }}</strong>
+                            </span>
+                        </div>  
                     @endif
                 </div>
                 <div class="form-group">
                     <label for="textInput"><b>Text</b></label>
-                    <input type="text" name="body" class="form-control" id="textInput" placeholder="Text">
+                    <input type="text" 
+                           name="body"
+                           class="form-control{{ $errors->has('body') ? ' is-invalid' : '' }}" 
+                           id="textInput"
+                           placeholder="Text"
+                           required
+                           value="{{ old('body') }}">
                     @if ($errors->has('body'))
                         <div class="alert alert-danger">{{ $errors->first('body') }}</div>
                     @endif
@@ -61,7 +86,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col text-center">
-                            <button type="submit" id="btn-meme" class="btn btn-primary btn-block">Create Meme</button>
+                            <button type="submit" id="btn-meme" class="btn btn-primary btn-block">
+                                Create Meme
+                            </button>
                         </div>
                     </div>
                 </div>

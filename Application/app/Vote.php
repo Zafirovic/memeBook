@@ -25,11 +25,6 @@ class Vote extends Model
     {
         return Vote::where('meme_id', '=', $meme_id)->where('user_id', '=', $user_id)->get();
     }
-
-    public function getMemeVoteSum($meme_id)
-    {
-        return Vote::where('meme_id', $meme_id)->sum('vote');
-    }
     
     public function voteMeme($meme_id, $user_id, $vote)
     {
@@ -41,31 +36,43 @@ class Vote extends Model
                 'user_id' => $user_id,
                 'vote' => $vote
             ]);
-            $sum = $this->getMemeVoteSum($meme_id);
-            return array('sum' => $sum, 'type' => "created", 'meme_id' => $meme_id);
+            return $this->generateVoteResponse($this->getMemeVoteSum($meme_id), 'created', $meme_id);
         }
         else
         {
             if ($meme_vote->vote == $vote)
             {
                 Vote::where('meme_id', '=', $meme_id)->where('user_id', '=', $user_id)->delete();
-                $sum = $this->getMemeVoteSum($meme_id);
-                return array('sum' => $sum, 'type' => "deleted", 'meme_id' => $meme_id);
+                return $this->generateVoteResponse($this->getMemeVoteSum($meme_id), 'deleted', $meme_id);
             }
             else
             {
                 Vote::where('meme_id', '=', $meme_id)->where('user_id', $user_id)->update(['vote' => $vote]);
-                $sum = $this->getMemeVoteSum($meme_id);
-                return array('sum' => $sum, 'type' => "updated", 'meme_id' => $meme_id);
+                return $this->generateVoteResponse($this->getMemeVoteSum($meme_id), 'updated', $meme_id);
             }
         }
+    }
+
+    public function getMemeVoteSum($meme_id)
+    {
+        return Vote::where('meme_id', $meme_id)->sum('vote');
+    }
+
+    public function generateVoteResponse($sum, $type, $meme_id)
+    {
+        $voteResponse = ['sum' => $sum, 'type' => $type, 'meme_id' => $meme_id];
+        return $voteResponse;
     }
 
     public function memeIsVotedByUser($meme_id, $user_id)
     {
         $meme_vote = Vote::where('meme_id', '=', $meme_id)->where('user_id', '=', $user_id)->first();
-        if ($meme_vote === null) return array('upvoted' => 'white', 'downvoted' => 'white'); 
-        return $meme_vote->vote === 1 ? array('upvoted' => '#99CCFF', 'downvoted' => 'white') : array('upvoted' => 'white', 'downvoted' => '#99CCFF');
+        if ($meme_vote === null) 
+        {
+            return array('upvoted' => 'white', 'downvoted' => 'white'); 
+        }
+        return $meme_vote->vote === 1 ? array('upvoted' => '#99CCFF', 'downvoted' => 'white')
+                                      : array('upvoted' => 'white', 'downvoted' => '#99CCFF');
     }
 
     public function deleteAllVotesForMeme($meme_id)
@@ -74,11 +81,11 @@ class Vote extends Model
         if ($meme != null)
         {
             Vote::where('meme_id', '=', $meme_id)->delete();
-            return MessageHelper::ToastMessage('Success');
+            return MessageHelper::ToastMessage('success');
         }
         else
         {
-            return MessageHelper::ToastMessage('Error');
+            return MessageHelper::ToastMessage('danger');
         }
     }
 }
