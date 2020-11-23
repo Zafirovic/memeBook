@@ -98,17 +98,16 @@
             readNotification(notificationId) {
                 $.ajax({
                     type: 'POST',
-                    url: this.read_notification_route,
-                    data: notificationId,
-                    contentType: 'application/json',
                     headers: {
                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                     },
+                    url: this.read_notification_route,
+                    data: { notificationId: notificationId },
                 })
                 .done((url) => {
                     window.location = url;
                 })
-                .error((data) => {
+                .fail((data) => {
                     console.log(data);
                 })
             },

@@ -141,16 +141,6 @@ export default {
         },
       });
     },
-    // deleteMeme() {
-    //   $.ajax({
-    //     headers: {
-    //       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-    //     },
-    //     url: this.delete_meme_route,
-    //     data: { meme_id: this.meme.id },
-    //     type: "POST"
-    //   })
-    // }
   }
 };
 </script>

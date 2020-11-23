@@ -67856,15 +67856,14 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_timeago__["a" /* default */], {
         readNotification: function readNotification(notificationId) {
             $.ajax({
                 type: 'POST',
-                url: this.read_notification_route,
-                data: notificationId,
-                contentType: 'application/json',
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                }
+                },
+                url: this.read_notification_route,
+                data: { notificationId: notificationId }
             }).done(function (url) {
                 window.location = url;
-            }).error(function (data) {
+            }).fail(function (data) {
                 console.log(data);
             });
         },

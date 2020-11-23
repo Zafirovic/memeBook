@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\MessageHelper;
 use App\MemeBookConstants;
 use App\Events\NewNotification;
 use App\Notifications\UserFollowed;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\NotificationRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Response;
 
 class UserController extends MemeBookBaseController
 {
@@ -104,7 +107,7 @@ class UserController extends MemeBookBaseController
         if ($validator->fails()) {
             $message = MessageHelper::ToastMessage('danger', true, $validator->messages()
                                                                              ->first());
-            return response()->json($message, Response::HTTP_BAD_REQUEST);
+            return response()->json(['message' => $message], Response::HTTP_BAD_REQUEST);
         }
 
         $urlFromNotification = $this->userRepository->markNotificationAsRead($request->notificationId);
