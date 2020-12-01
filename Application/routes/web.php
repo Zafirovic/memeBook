@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth' ], function() {
     Route::post('/user/follows', 'UserController@isFollowing')->name('follows');
     Route::get('/user/notifications', 'UserController@notifications')->name('notifications');
     Route::post('/user/notification/read', 'UserController@readNotification')->name('read.notification');
+    Route::get('/user/notifications/read', 'UserController@readNotifications')->name('read.notifications');
 });
 
 Route::fallback(function () {

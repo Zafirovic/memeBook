@@ -8,6 +8,7 @@
   
 .dropdown-menu-notifications {
     width: 360px;
+    display: none;
 }
 .dropdown-menu-notifications li {
     padding: 0px 0;

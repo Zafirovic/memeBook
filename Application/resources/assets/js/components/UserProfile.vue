@@ -5,20 +5,15 @@
         <div>
           <div id="basic-info row">
             <h1>
-              Username: <i>{{ this.user.name }}</i>
-              <avatar class="avatar-photo"
-                      :username="this.user.name"
-                      :src="this.user.avatar"
-                      :size=75
-                      :inline="true">
+              <avatar 
+                class="avatar-photo"
+                :username="this.user.name"
+                :src="this.user.avatar"
+                :size=75
+                :inline="true">
               </avatar>
-            </h1>
-          </div>
-          <td>
-            <div>
-              <i><h4> {{ this.memesCount }} memes {{ this.user.followers }} Followers  {{ this.user.following }} Following </h4></i>
-            </div>
-            <form v-if="this.auth_user !== null && this.auth_user.id != user.id && !this.isFollowing"
+              <i>{{ this.user.name }}</i>
+              <form v-if="this.auth_user !== null && this.auth_user.id != user.id && !this.isFollowing"
                  :action="this.follow_route" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_token" v-bind:value="csrfToken">
                 <input type="hidden" id="user_id" name="user_id" :value="this.user.id">
@@ -29,11 +24,11 @@
                 >
                   <i class="fa fa-btn fa-user" id="followUser">Follow</i>
                 </button>
-            </form>
-            <form v-else-if="this.auth_user !== null && this.auth_user.id != user.id"
-                 :action="this.unfollow_route" method="POST" enctype="multipart/form-data">
-                 <input type="hidden" name="_token" v-bind:value="csrfToken">
-                 <input type="hidden" id="user_id" name="user_id" :value="this.user.id">
+              </form>
+              <form v-else-if="this.auth_user !== null && this.auth_user.id != user.id && this.isFollowing"
+                :action="this.unfollow_route" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_token" v-bind:value="csrfToken">
+                <input type="hidden" id="user_id" name="user_id" :value="this.user.id">
                 <button 
                   :id="'delete-follow-' + this.user.id"
                   class="btn btn-danger"
@@ -41,18 +36,25 @@
                 >
                   <i class="fa fa-btn fa-trash" id="unfollowUser">Unfollow</i>
                 </button>
-            </form>
+              </form>
+            </h1>
+          </div>
+          <td>
+            <div>
+              <i><h4> {{ this.memesCount }} memes {{ this.user.followers }} Followers  {{ this.user.following }} Following </h4></i>
+            </div>
           </td>
           <a v-if="this.auth_user !== null && this.user.id == this.auth_user.id" href="">Edit Profile</a>
           <div>
             <div v-if="this.memes.data.length > 0">
               <div v-for="meme in this.memes.data">
-                <meme-component :meme="meme" 
-                                :user="auth_user"
-                                :memeimage="meme.sourceImage"
-                                :single_meme_route="'/meme/single/' + meme.id"
-                                :user_route="'/users/' + meme.user_id"
-                                delete_meme_route="'/meme/delete'">
+                <meme-component 
+                  :meme="meme" 
+                  :user="auth_user"
+                  :memeimage="meme.sourceImage"
+                  :single_meme_route="'/meme/single/' + meme.id"
+                  :user_route="'/users/' + meme.user_id"
+                  delete_meme_route="'/meme/delete'">
                 </meme-component>
               </div>
             </div>
@@ -103,21 +105,25 @@ export default {
     this.isFetching = false;
   },
   methods: {
-    async IsFollowingCheck() {
-      await $.ajax({
+    IsFollowingCheck() {
+      var vm = this;
+      $.ajax({
           url: "/user/follows",
           type: "POST",
           data: { user_id: this.user.id },
           headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
           },
+          success: function (xhr) {
+            vm.isFollowing = xhr.data;
+          },
           error: function (xhr, error) {
               if (xhr.status == 401) window.location.href = "/login";
               else if (xhr.status == 404) window.history.back();
-              else if (xhr.status == 500) console.log(xhr);
+              else if (xhr.status == 500) console.log(xhr); //[TODO]: handle better
               else console.log(error);
           },
-      }).done(following => this.isFollowing = JSON.parse(following));
+      });
     }
   },
 };

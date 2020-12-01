@@ -28,4 +28,10 @@ class UserRepository implements UserIRepository{
     {
         return $this->model->markNotificationAsRead($notificationId);
     }
+
+    public function markNotificationsAsRead($userId)
+    {
+        return $this->model->markNotificationsAsRead($userId);
+    }
+
 }

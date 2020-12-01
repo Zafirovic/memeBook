@@ -81,6 +81,7 @@ class MemeController extends MemeBookBaseController
         {
             \Debugbar::addThrowable($ex);
             Log::error($ex->getMessage());
+            return $this->respondWithError();
         }
     }
 
@@ -95,7 +96,7 @@ class MemeController extends MemeBookBaseController
 
         if ($request->ajax()) {
             $message = $this->memeRepository->addApiMeme($request);
-            return response()->json(['url' => route('memes.index')]);
+            return $this->respondWithData(['url' => route('memes.index')]);
         }
         
         if ($request->hasFile('image')) {
@@ -167,7 +168,7 @@ class MemeController extends MemeBookBaseController
         {
             $message = MessageHelper::ToastMessage('danger', true, $validator->messages()
                                                                              ->first());
-            return response()->json($message, Response::HTTP_BAD_REQUEST);
+            return $this->respondWithError($message, 400);
         }
         if (Auth::user()->id)
         {

@@ -82,25 +82,61 @@ class User extends Authenticatable
 
     public function getNotifications()
     {
-        return auth()->user() ? auth()->user()->unreadNotifications()->get()->toArray()
-                              : null;
+        $user = auth()->user();
+        if ($user)
+        {
+            $notifications = $user->notifications()->get();
+            $notificationsData = json_decode($notifications);
+            $notificationsJSON = array();
+
+            foreach ($notificationsData as $notification) {
+                $read_at = $notification->read_at;
+                $id = $notification->id;
+                $created_at = $notification->created_at;
+                $notifiable_type = $notification->type;
+                $fromUserName = $notification->data->follower_name;
+                $follower_id = $notification->data->follower_id;
+
+                $tuple = array('read_at' => $read_at,
+                               'id' => $id,
+                               'created_date' => $created_at,
+                               'notifiable_type' => $notifiable_type,
+                               'fromUserName' => $fromUserName,
+                               'follower_id' => $follower_id
+                              );
+                $notificationsJSON[] = $tuple;
+            }
+            return $notificationsJSON;
+        }
+        return null;
     }
 
     public function getNotification($userId)
     {
         $user = User::where('id', $userId)->first();
-        $createdNotification = $user->unreadNotifications()->where('notifiable_id', $userId)->first();
-       
+        $createdNotification = $user->notifications()->where('notifiable_id', $userId)->first();
+
         return $createdNotification;
     }
 
     public function markNotificationAsRead($notificationId)
     {
-        $notification = auth()->user()->unreadNotifications()->where('id', $notificationId)->first();
-        $notification->markAsRead();
+        $notification = auth()->user()->notifications()->where('id', $notificationId)->first();
+        if (!$notification->read_at)
+            $notification->markAsRead();
         $url = $this->createNotificationUrl($notification);
 
         return $url;
+    }
+
+    public function markNotificationsAsRead($userId)
+    {
+        foreach (auth()->user()->unreadNotifications as $notification)
+        {
+            if (!$notification->read_at)
+                $notification->markAsRead();
+        }
+        return true;
     }
 
     private function createNotificationUrl($notification)

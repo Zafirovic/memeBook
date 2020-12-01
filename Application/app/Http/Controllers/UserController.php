@@ -87,18 +87,19 @@ class UserController extends MemeBookBaseController
         {
             $user_id = $request->user_id;
             $isFollowing = auth()->user()->isFollowing($user_id);
-
-            return json_encode($isFollowing);
+            \Debugbar($isFollowing);
+            return $this->respondWithData($isFollowing);
         }
         else
         {
-            return response()->json(['error' => 'User not found.'], 404); 
+            return $this->respondWithError('User not found.', 404); 
         }
     }
 
     public function notifications()
     {
-        return $this->userRepository->getNotifications();
+        $notifications = $this->userRepository->getNotifications();
+        return response()->json($notifications);
     }
 
     public function readNotification(Request $request)
@@ -107,10 +108,25 @@ class UserController extends MemeBookBaseController
         if ($validator->fails()) {
             $message = MessageHelper::ToastMessage('danger', true, $validator->messages()
                                                                              ->first());
-            return response()->json(['message' => $message], Response::HTTP_BAD_REQUEST);
+            return $this->respondWithError($message, 400);
         }
 
         $urlFromNotification = $this->userRepository->markNotificationAsRead($request->notificationId);
-        return $urlFromNotification;
+        return $this->respondWithData($urlFromNotification);
+    }
+
+    public function readNotifications(Request $request)
+    {
+        $user = auth()->user();
+        if ($user)
+        {
+            $read = $this->userRepository->markNotificationsAsRead($user->id);
+            return $read ? $this->respondSuccess() 
+                         : $this->respondWithError();
+        }
+        else
+        {
+            return $this->respondWithError('Unauthorized', 401);
+        }
     }
 }

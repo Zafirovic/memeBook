@@ -1,6 +1,9 @@
 <template>
     <div>
-        <i class="fa fa-exclamation-circle fa-fw"></i> {{ notification.description }}
+        <i :class="notification.mark"></i>
+        <span :style="notification.style">
+           <strong>{{ notification.description }}</strong>
+        </span>
         <span class="pull-right text-muted small"><timeago :datetime="notification.time" :auto-update="60"></timeago></span>
     </div>
 </template>

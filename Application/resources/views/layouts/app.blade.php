@@ -76,6 +76,7 @@
     <script src="//malihu.github.io/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="{{ URL::asset('js/Dropdown.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/sidebar.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/jquery.bxslider.js') }}"></script>
     <script type="text/javascript" src="{{ URL::asset('js/ReportMeme.js') }}"></script>
