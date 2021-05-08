@@ -1,0 +1,101 @@
+.meme-base {
+    margin: 0 auto;
+    width: 740px;
+    max-width: 100%;
+    padding: 19px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.meme-container {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.article-style {
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.meme-img {
+    display: flex;
+    width: 600px; 
+    height: 600px;
+    object-fit: cover;
+}
+
+.right-side {
+    display: flex;
+    justify-content: safe;
+    flex-direction: column;
+}
+
+.control-panel {
+    display: grid;
+    grid-gap: 10px;
+}
+
+.centered-element {
+    display: flex;
+    margin: 0 auto;
+    flex-grow: 0;
+    justify-content: center;
+} 
+
+.profile-options {
+    float: left;
+    width: 20%;
+}
+
+.user-options {
+    float: right;
+    width: 80%;
+}
+
+.profile-view {
+    float: right;
+    color: #666;
+}
+
+.meme-options {
+    float: right;
+    margin: 5px;
+}
+
+.vote {
+    border: 1px solid #ccc;
+}
+
+.report-meme {
+    display: flex;
+    flex-grow: 0;
+    justify-content: center;
+    margin-top: 20px;
+} 
+
+#report_meme_button {
+    background-color: #6ebbdd;
+    color: white;
+}
+
+#report_meme_button:hover {
+    background-color: #026a97
+}
+
+#delete_meme_button {
+    background-color: #f35b3f; 
+    color: white;
+    margin-left: 5px;
+}
+
+.no-memes-text {
+    position: absolute;
+    top: 50%;
+    left: 25%; 
+    margin: 0 auto;
+}

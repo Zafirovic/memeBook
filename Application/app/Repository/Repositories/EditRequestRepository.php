@@ -17,12 +17,12 @@ class EditRequestRepository implements EditRequestIRepository
     public function getEditRequestsForUser($user_id)
     {
         return $this->model->getAllEditRequestsForUser($user_id);
-    }   
+    }
 
     public function getEditRequestsForMeme($meme_id)
     {
         return $this->model->getAllEditRequestsForMeme($meme_id);
-    }   
+    }
 
     public function getEditRequest($editRequest_id)
     {

@@ -2,13 +2,8 @@
 
 namespace App;
 
-final class MemeBookConstants 
+final class MemeBookConstants
 {
-    public function __construct()
-    {
-        
-    }
-
     public static $notificationConstants = [
         'followUser' => 'App\\Notifications\\UserFollowed',
         'newMeme' => 'App\\Notifications\\NewMeme',
@@ -19,7 +14,7 @@ final class MemeBookConstants
         '2' => 'Discrimination',
         '3' => 'Goes against my beliefs, values or politics',
         '4' => 'Commercial or self promotion',
-        '5-posting' => 'Over-posting',
+        '5' => 'Over-posting',
         '6' => 'Contains illegal content or activity'
     ];
 }

@@ -50,8 +50,7 @@ class RegisterController extends Controller
     {
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
-            $message = MessageHelper::ToastMessage('danger', true, $validator->messages()
-                                                                             ->first());
+            $message = MessageHelper::Error($validator->messages()->first());
             $redirectTo = back()->withInput()->with($message);
         }
         return $this->baseRegister($request);
@@ -60,7 +59,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -76,16 +75,15 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      */
     protected function create(array $data)
     {
         if (isset($data['image'])) {
-            $img_name = ImageHelper::CreateImage($data['image'], 'images/user-profile-images');
-        }
-        else {
-            $img_name = 'profile-image-avatar-default.png';
+            $img_name = '/images/user-profile-images' . ImageHelper::CreateImage($data['image'], 'images/user-profile-images');
+        } else {
+            $img_name = '/images/profile-image-avatar-default.png';
         }
 
         return User::create([

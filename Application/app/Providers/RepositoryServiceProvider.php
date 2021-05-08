@@ -26,9 +26,9 @@ class RepositoryServiceProvider extends ServiceProvider
         MemeIRepository::class => MemeRepository::class,
         CategoryIRepository::class => CategoryRepository::class,
         EditRequestIRepository::class => EditRequestRepository::class,
-        MemeReportIRepository::class => MemeReportRepository::class, 
+        MemeReportIRepository::class => MemeReportRepository::class,
         UserNotificationIRepository::class => UserNotificationRepository::class,
-        UserIRepository::class => UserRepository::class, 
+        UserIRepository::class => UserRepository::class,
         VoteIRepository::class => VoteRepository::class
     ];
 
@@ -49,6 +49,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 }

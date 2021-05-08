@@ -25,15 +25,11 @@ class MemeRequest extends FormRequest
     {
         $rules = [];
         if (gettype(request()->image) === 'string') {
-            $rules['image'] = 'string'; 
+            $rules['image'] = 'string';
         }
         else {
             $rules['image'] = 'mimes:jpeg,png,jpg,gif,svg|max:2048';
         }
-
-        $rules['body'] = 'required|max:255';
-        $rules['title'] = 'required|max:30';
-
         return $rules;
     }
 }

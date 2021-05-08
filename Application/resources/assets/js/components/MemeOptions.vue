@@ -7,26 +7,26 @@
           <span :id="'votes-' + this.meme.id"> {{ this.meme.numOfVotes }} </span>
         </h5>
         <div class="row" style="color: whitesmoke">
-          <h2>
-            <a class="btn"
+          <h3>
+            <a class="btn vote"
               :style="'background-color:' + this.meme.voted['upvoted']"
               :id="'meme_upvote-' + this.meme.id"
               @click="upvote()"
               href="#!"
               role="button">
-              <i class="fas fa-arrow-circle-up" style="font-size: 2.5em"></i>
+              <i class="fas fa-arrow-circle-up fa-xs" style="font-size: 2.5em"></i>
             </a>
-          </h2>
-          <h2>
-            <a class="btn"
+          </h3>
+          <h3>
+            <a class="btn vote"
               :style="'background-color:' + this.meme.voted['downvoted']"
               :id="'meme_downvote-' + this.meme.id"
               @click="downvote()"
               href="#!"
               role="button">
-              <i class="fas fa-arrow-circle-down" style="font-size: 2.5em"></i>
+              <i class="fas fa-arrow-circle-down fa-xs" style="font-size: 2.5em"></i>
             </a>
-          </h2>
+          </h3>
         </div>
       </div>
       <div class="user-options row-fluid">
@@ -41,7 +41,7 @@
             v-if="this.user !== null"
             id="delete_meme_button"
             class="btn"
-            href=""
+            :href="this.edit_meme_route"
             >Edit Meme
           </a>
           <a style="display:inline-block;">
@@ -70,7 +70,8 @@ export default {
     username: String,
     user: Object,
     user_route: String,
-    delete_meme_route: String
+    delete_meme_route: String,
+    edit_meme_route: String
   },
   data() {
     return {
@@ -80,12 +81,12 @@ export default {
   methods: {
     upvote() {
       $.ajax({
-        headers: {
-          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        url: "/meme/vote",
-        data: { meme_id: this.meme.id, vote: 1 },
-        type: "POST",
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+          url: "/meme/vote",
+          data: { meme_id: this.meme.id, vote: 1 },
+          type: "POST",
         success: function (data) {
           var upvoteButton = $("#meme_upvote-" + data.meme_id);
           var downvoteButton = $("#meme_downvote-" + data.meme_id);
@@ -95,27 +96,28 @@ export default {
               break;
             case "updated":
               upvoteButton.css("background-color", " #99CCFF");
-              downvoteButton.css("background-color", "white");
+              downvoteButton.css("background-color", "#f0f0f0");
               break;
             case "deleted":
-              upvoteButton.css("background-color", "white");
+              upvoteButton.css("background-color", "#f0f0f0");
               break;
           }
           $("#votes-" + data.meme_id).html(data.sum);
         },
         error: function (xhr) {
-          if ((xhr.status = 401)) window.location.href = "/login";
+          if ((xhr.status == 401)) window.location.href = "/login";
+          else if ((xhr.status == 400)) return; //[TODO]:show toast message
         },
       });
     },
     downvote() {
       $.ajax({
-        headers: {
-          "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-        url: "/meme/vote",
-        data: { meme_id: this.meme.id, vote: -1 },
-        type: "POST",
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+          url: "/meme/vote",
+          data: { meme_id: this.meme.id, vote: -1 },
+          type: "POST",
         success: function (data) {
           var upvoteButton = $("#meme_upvote-" + data.meme_id);
           var downvoteButton = $("#meme_downvote-" + data.meme_id);
@@ -125,12 +127,12 @@ export default {
               break;
             }
             case "updated": {
-              upvoteButton.css("background-color", "white");
+              upvoteButton.css("background-color", "#f0f0f0");
               downvoteButton.css("background-color", " #99CCFF");
               break;
             }
             case "deleted": {
-              downvoteButton.css("background-color", "white");
+              downvoteButton.css("background-color", "#f0f0f0");
               break;
             }
           }
@@ -138,6 +140,7 @@ export default {
         },
         error: function (xhr) {
           if ((xhr.status == 401)) window.location.href = "/login";
+          else if ((xhr.status == 400)) return; //[TODO]:show toast message
         },
       });
     },

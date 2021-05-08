@@ -15,8 +15,6 @@ class CreateMemesTable extends Migration
     {
         Schema::create('memes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 20);
-            $table->string('body', 50);
             $table->integer('upvotes')->default(0);
             $table->string('image')->default(0);
 
@@ -24,7 +22,6 @@ class CreateMemesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
-
             $table->timestamps();
         });
     }

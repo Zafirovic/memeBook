@@ -12,13 +12,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar'
+        'name', 'email', 'password', 'avatar',
     ];
 
     /**
@@ -35,34 +35,47 @@ class User extends Authenticatable
         return $this->hasMany('App\Meme');
     }
 
+    public function getUserById($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        return $user;
+    }
+
     public function getUser($user_id)
     {
         $user = User::findOrFail($user_id);
-        $user->avatar = URL::to('/') . '/images/user-profile-images/' . $user->avatar;
+        $user->avatar = URL::to('/') . $user->avatar;
         $user->following = $user->follows()->count();
         $user->followers = $user->followers()->count();
-        
+
         return $user;
+    }
+
+    public function deleteUser($user_id)
+    {
+        $user = User::FindOrFail($user_id);
+        $user->memes()->delete();
+        $user->delete();
     }
 
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'follows_id', 'user_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'user_id', 'follows_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     public function follow($userId)
     {
         $this->follows()->attach($userId);
         $followedUser = User::where('id', $userId)->first();
-        $followMessage = MessageHelper::ToastMessage('success', true, 'Your are now following ' . $followedUser->name);
-       
+        $followMessage = MessageHelper::Success('Your are now following ' . $followedUser->name);
+
         return compact('followMessage');
     }
 
@@ -71,7 +84,7 @@ class User extends Authenticatable
         $this->follows()->detach($userId);
         $user = User::where('id', $userId)->first();
 
-        return MessageHelper::ToastMessage('warning', true, 'You are no longer following ' . $user->name);
+        return MessageHelper::Warning('You are no longer following ' . $user->name);
     }
 
     public function isFollowing($userId)
@@ -82,54 +95,78 @@ class User extends Authenticatable
 
     public function getNotifications()
     {
-        return auth()->user() ? auth()->user()->unreadNotifications()->get()->toArray()
-                              : null;
+        $user = auth()->user();
+        if ($user) {
+            $notifications = $user->notifications()->get();
+            $notificationsData = json_decode($notifications);
+            $notificationsJSON = array();
+
+            foreach ($notificationsData as $notification) {
+                $tuple = array('read_at' => $notification->read_at,
+                    'id' => $notification->id,
+                    'created_date' => $notification->created_at,
+                    'notifiable_type' => $notification->type,
+                    'fromUserName' => $notification->data->follower_name,
+                    'fromUserAvatar' => $notification->data->follower_avatar,
+                    'follower_id' => $notification->data->follower_id
+                );
+                $notificationsJSON[] = $tuple;
+            }
+            return $notificationsJSON;
+        }
+        return null;
     }
 
     public function getNotification($userId)
     {
         $user = User::where('id', $userId)->first();
-        $createdNotification = $user->unreadNotifications()->where('notifiable_id', $userId)->first();
-       
+        $createdNotification = $user->notifications()->where('notifiable_id', $userId)->first();
+
         return $createdNotification;
     }
 
     public function markNotificationAsRead($notificationId)
     {
-        $notification = auth()->user()->unreadNotifications()->where('id', $notificationId)->first();
-        $notification->markAsRead();
+        $notification = auth()->user()->notifications()->where('id', $notificationId)->first();
+        if (!$notification->read_at)
+            $notification->markAsRead();
         $url = $this->createNotificationUrl($notification);
 
         return $url;
     }
 
+    public function markNotificationsAsRead($userId)
+    {
+        foreach (auth()->user()->unreadNotifications as $notification) {
+            if (!$notification->read_at)
+                $notification->markAsRead();
+        }
+        return true;
+    }
+
     private function createNotificationUrl($notification)
     {
-        if (strpos($notification->type, "UserFollowed") !== false)
-        {
+        if (strpos($notification->type, "UserFollowed") !== false) {
             return route('user.show', $notification->data['follower_id']);
-        }
-        else if (strpos($notification->type, "NewMeme") !== false)
-        {
+        } else if (strpos($notification->type, "NewMeme") !== false) {
             return route('meme.single', $notification->data['meme_id']);
         }
     }
 
     /**
      * Return the user attributes.
-
      * @return array
      */
     public static function getAuthor($id)
     {
         $user = self::find($id);
         return [
-            'id'     => $user->id,
-            'name'   => $user->name,
-            'email'  => $user->email,
-            'url'    => '',  // Optional
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'url' => '',  // Optional
             'avatar' => 'gravatar',  // Default avatar
-            'admin'  => $user->role === 'admin', // bool
+            'admin' => $user->role === 'admin', // bool
         ];
     }
 }

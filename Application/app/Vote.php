@@ -69,10 +69,10 @@ class Vote extends Model
         $meme_vote = Vote::where('meme_id', '=', $meme_id)->where('user_id', '=', $user_id)->first();
         if ($meme_vote === null) 
         {
-            return array('upvoted' => 'white', 'downvoted' => 'white'); 
+            return array('upvoted' => '#f0f0f0', 'downvoted' => '#f0f0f0'); 
         }
-        return $meme_vote->vote === 1 ? array('upvoted' => '#99CCFF', 'downvoted' => 'white')
-                                      : array('upvoted' => 'white', 'downvoted' => '#99CCFF');
+        return $meme_vote->vote === 1 ? array('upvoted' => '#99CCFF', 'downvoted' => '#f0f0f0')
+                                      : array('upvoted' => '#f0f0f0', 'downvoted' => '#99CCFF');
     }
 
     public function deleteAllVotesForMeme($meme_id)
@@ -81,11 +81,11 @@ class Vote extends Model
         if ($meme != null)
         {
             Vote::where('meme_id', '=', $meme_id)->delete();
-            return MessageHelper::ToastMessage('success');
+            return MessageHelper::Success();
         }
         else
         {
-            return MessageHelper::ToastMessage('danger');
+            return MessageHelper::Error();
         }
     }
 }

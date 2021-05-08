@@ -5,9 +5,10 @@
 @endsection
 
 @section('navbar')
-    @include('partials.main-navbar') 
+    @include('partials.main-navbar')
 @endsection
 
 @section('content')
     @include('meme.create-content')
 @endsection
+

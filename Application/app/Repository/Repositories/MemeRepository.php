@@ -40,14 +40,9 @@ class MemeRepository implements MemeIRepository
         return $this->model->deleteMeme($meme_id);
     }
 
-    public function addMeme(Request $request, $img_name)
+    public function addMeme($data, $img_name)
     {
-        return $this->model->addMeme($request, $img_name);
-    }
-
-    public function addApiMeme($data) 
-    {
-        return $this->model->addApiMeme($data);
+        return $this->model->addMeme($data, $img_name);
     }
 
     public function updateMeme(Request $request, $meme_id)
